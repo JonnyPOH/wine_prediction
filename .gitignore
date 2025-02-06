@@ -181,3 +181,6 @@ datasets/
 .dataset/
 *.zip
 *.pkl
+artifacts/
+.artifacts/
+*.jsonl

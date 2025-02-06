@@ -1,0 +1,43 @@
+name: Train and Deploy ML Model
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "model/**"  # Runs when model files change
+
+jobs:
+  train-model:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          pip install -r model/requirements.txt
+          pip install boto3 sagemaker
+
+      - name: Train Model
+        run: python model/train.py
+
+      - name: Upload Model to S3
+        env:
+          AWS_REGION: us-east-1
+          S3_BUCKET: wine-country-models
+        run: |
+          aws s3 cp model/model.pkl s3://$S3_BUCKET/model.pkl
+
+      - name: Deploy Model to SageMaker
+        env:
+          AWS_REGION: us-east-1
+        run: |
+          aws sagemaker create-endpoint-config --endpoint-config-name wine-predictor-config --model-name wine-country-model
+          aws sagemaker update-endpoint --endpoint-name wine-country-endpoint --endpoint-config-name wine-predictor-config

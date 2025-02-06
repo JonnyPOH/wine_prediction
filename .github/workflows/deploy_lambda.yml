@@ -1,0 +1,38 @@
+name: Deploy Lambda API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "lambda/**"  # Runs when Lambda files change
+
+jobs:
+  deploy-lambda:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          pip install -r lambda/requirements.txt
+          pip install boto3
+
+      - name: Zip Lambda Function
+        run: |
+          cd lambda
+          zip -r deployment.zip lambda_function.py
+
+      - name: Deploy to AWS Lambda
+        env:
+          AWS_REGION: us-east-1
+          LAMBDA_FUNCTION_NAME: wine-country-api
+        run: |
+          aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://lambda/deployment.zip

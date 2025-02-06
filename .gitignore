@@ -179,3 +179,5 @@ going_modular/
 .going_modular/
 datasets/
 .dataset/
+*.zip
+*.pkl

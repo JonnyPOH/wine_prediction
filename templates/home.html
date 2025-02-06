@@ -1,0 +1,151 @@
+<html>
+<body>
+    <div class="login">
+       <h1>Wine Country Predictor</h1>
+
+       <form action="{{ url_for('predict_datapoint')}}" method="post">
+        <h1>
+            <legend>Wine Country Predictor</legend>
+        </h1>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <input type="text" class="form-control" name="Description"
+                 placeholder="Describe the wine (e.g., full-bodied, fruity, dry)" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Variety</label>
+            <select class="form-control" name="Variety" placeholder="Enter Variety" required>
+                <option class="placeholder" selected disabled value="">Variety</option>
+                <option value="Aglianico">Aglianico</option>
+                <option value="Airen">Airen</option>
+                <option value="Albariño">Albariño</option>
+                <option value="Alsace white blend">Alsace white blend</option>
+                <option value="Barbera">Barbera</option>
+                <option value="Blaufränkisch">Blaufränkisch</option>
+                <option value="Bobal">Bobal</option>
+                <option value="Bordeaux-style Red Blend">Bordeaux-style Red Blend</option>
+                <option value="Bordeaux-style White Blend">Bordeaux-style White Blend</option>
+                <option value="Cabernet Blend">Cabernet Blend</option>
+                <option value="Cabernet Franc">Cabernet Franc</option>
+                <option value="Cabernet Merlot">Cabernet Merlot</option>
+                <option value="Cabernet Sauvignon">Cabernet Sauvignon</option>
+                <option value="Carignano">Carignano</option>
+                <option value="Champagne Blend">Champagne Blend</option>
+                <option value="Chardonnay">Chardonnay</option>
+                <option value="Chenin Blanc">Chenin Blanc</option>
+                <option value="Cinsault">Cinsault</option>
+                <option value="Colombard-Sauvignon Blanc">Colombard-Sauvignon Blanc</option>
+                <option value="Cortese">Cortese</option>
+                <option value="Corvina, Rondinella, Molinara">Corvina, Rondinella, Molinara</option>
+                <option value="Dolcetto">Dolcetto</option>
+                <option value="Duras">Duras</option>
+                <option value="Favorita">Favorita</option>
+                <option value="Fiano">Fiano</option>
+                <option value="Friulano">Friulano</option>
+                <option value="Fumé Blanc">Fumé Blanc</option>
+                <option value="G-S-M">G-S-M</option>
+                <option value="Gamay">Gamay</option>
+                <option value="Garganega">Garganega</option>
+                <option value="Garnacha">Garnacha</option>
+                <option value="Garnacha Blanca">Garnacha Blanca</option>
+                <option value="Gewürztraminer">Gewürztraminer</option>
+                <option value="Glera">Glera</option>
+                <option value="Godello">Godello</option>
+                <option value="Grechetto">Grechetto</option>
+                <option value="Greco">Greco</option>
+                <option value="Grenache">Grenache</option>
+                <option value="Grenache Blanc">Grenache Blanc</option>
+                <option value="Grenache Blend">Grenache Blend</option>
+                <option value="Grillo">Grillo</option>
+                <option value="Grüner Veltliner">Grüner Veltliner</option>
+                <option value="Lambrusco">Lambrusco</option>
+                <option value="Macabeo">Macabeo</option>
+                <option value="Malbec">Malbec</option>
+                <option value="Malbec-Merlot">Malbec-Merlot</option>
+                <option value="Marsanne">Marsanne</option>
+                <option value="Marsanne-Roussanne">Marsanne-Roussanne</option>
+                <option value="Melon">Melon</option>
+                <option value="Mencía">Mencía</option>
+                <option value="Meritage">Meritage</option>
+                <option value="Merlot">Merlot</option>
+                <option value="Monastrell">Monastrell</option>
+                <option value="Montepulciano">Montepulciano</option>
+                <option value="Mourvèdre">Mourvèdre</option>
+                <option value="Muscat">Muscat</option>
+                <option value="Nebbiolo">Nebbiolo</option>
+                <option value="Negroamaro">Negroamaro</option>
+                <option value="Nero d'Avola">Nero d'Avola</option>
+                <option value="Pedro Ximénez">Pedro Ximénez</option>
+                <option value="Petit Verdot">Petit Verdot</option>
+                <option value="Petite Sirah">Petite Sirah</option>
+                <option value="Petite Verdot">Petite Verdot</option>
+                <option value="Pinot Blanc">Pinot Blanc</option>
+                <option value="Pinot Grigio">Pinot Grigio</option>
+                <option value="Pinot Gris">Pinot Gris</option>
+                <option value="Pinot Noir">Pinot Noir</option>
+                <option value="Pinotage">Pinotage</option>
+                <option value="Port">Port</option>
+                <option value="Prieto Picudo">Prieto Picudo</option>
+                <option value="Primitivo">Primitivo</option>
+                <option value="Prosecco">Prosecco</option>
+                <option value="Red Blend">Red Blend</option>
+                <option value="Rhône-style Red Blend">Rhône-style Red Blend</option>
+                <option value="Rhône-style White Blend">Rhône-style White Blend</option>
+                <option value="Ribolla Gialla">Ribolla Gialla</option>
+                <option value="Riesling">Riesling</option>
+                <option value="Rosé">Rosé</option>
+                <option value="Roussanne">Roussanne</option>
+                <option value="Sagrantino">Sagrantino</option>
+                <option value="Sangiovese">Sangiovese</option>
+                <option value="Sangiovese Grosso">Sangiovese Grosso</option>
+                <option value="Sauvignon">Sauvignon</option>
+                <option value="Sauvignon Blanc">Sauvignon Blanc</option>
+                <option value="Shiraz">Shiraz</option>
+                <option value="Sparkling Blend">Sparkling Blend</option>
+                <option value="Sylvaner">Sylvaner</option>
+                <option value="Syrah">Syrah</option>
+                <option value="Sémillon">Sémillon</option>
+                <option value="Tempranillo">Tempranillo</option>
+                <option value="Tempranillo Blend">Tempranillo Blend</option>
+                <option value="Tempranillo-Shiraz">Tempranillo-Shiraz</option>
+                <option value="Teroldego">Teroldego</option>
+                <option value="Tinta de Toro">Tinta de Toro</option>
+                <option value="Tinto Fino">Tinto Fino</option>
+                <option value="Tinto del Pais">Tinto del Pais</option>
+                <option value="Trepat">Trepat</option>
+                <option value="Turbiana">Turbiana</option>
+                <option value="Verdejo">Verdejo</option>
+                <option value="Verdelho">Verdelho</option>
+                <option value="Viognier">Viognier</option>
+                <option value="Viognier-Valdiguié">Viognier-Valdiguié</option>
+                <option value="White Blend">White Blend</option>
+                <option value="White Riesling">White Riesling</option>
+                <option value="Zinfandel">Zinfandel</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Points</label>
+            <input class="form-control" type="number" name="Points"
+                placeholder="Enter Points" min='0' max='100' />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price/label>
+            <input class="form-control" type="number" name="Price"
+                placeholder="Enter Price" min='0' max='100' />
+        </div>
+
+        <div class="mb-3">
+            <input class="btn btn-primary" type="submit" value="Predict your Maths Score" required />
+        </div>
+    </form>
+
+    {% set country_map = {1: "US", 2: "France", 3: "Portugal", 4: "Spain"} %}
+  <h2>
+    Wine likely from....{{ country_map.get(results, "Unknown")}}!
+  </h2>
+
+   <body>
+</html>

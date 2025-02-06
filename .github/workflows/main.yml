@@ -3,7 +3,7 @@ name: workflow
 on:
   push:
     branches:
-      - main
+      - maaster
     paths-ignore:
       - 'README.md'
 

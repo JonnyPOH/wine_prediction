@@ -184,3 +184,8 @@ datasets/
 artifacts/
 .artifacts/
 *.jsonl
+package/
+lambda_package/
+.vscode/
+static/
+templates/

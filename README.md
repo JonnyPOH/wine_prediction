@@ -26,3 +26,28 @@ tfidf_vectorizer = TfidfVectorizer(
     ngram_range=(1,2),  # Include unigrams & bigrams
     stop_words="english"  # Remove common stopwords
 )
+
+
+
+concatinate the region maybe
+
+
+
+
+API
+> User/API Client sends a request (wine characteristics) via API Gateway
+> API Gateway forwards the request to an AWS Lambda function
+> Lambda
+  - process
+  - loads model
+  - returns predictions
+> Response is sent back to the user via API Gateway
+
+
+aws lambda create-function --function-name predict-wine-country \
+    --runtime python3.8 \
+    --role arn:aws:iam::637423214227:role/Lambda_WinePrediction_Role \
+    --handler lambda_function.lambda_handler \
+    --timeout 30 \
+    --memory-size 256 \
+    --zip-file fileb://function.zip

@@ -3,7 +3,7 @@ name: Update Lambda Function Code
 on:
   push:
     branches:
-      - master  # Update Lambda when pushing to the main branch
+      - master  # Deploy when pushing to the main branch
 
 jobs:
   deploy:
@@ -21,10 +21,10 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: us-east-1  # Change to your AWS region if needed
 
       - name: Update Lambda function code
         run: |
           aws lambda update-function-code \
-            --function-name myLambdaFunction \
+            --function-name predict-wine-country \
             --zip-file fileb://package.zip

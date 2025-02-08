@@ -3,6 +3,7 @@ import openai
 import os
 import boto3
 
+#TEST
 # AWS Secrets Manager Client
 secrets_client = boto3.client("secretsmanager")
 
@@ -14,7 +15,7 @@ def get_openai_api_key():
     try:
         response = secrets_client.get_secret_value(SecretId=SECRET_NAME)
         secret_string = json.loads(response["SecretString"])
-        return secret_string["open_ai_secret_jonny_2"]  # Extract OpenAI key correctly
+        return secret_string["open_ai_secret_jonny_2"]
     except secrets_client.exceptions.ResourceNotFoundException:
         raise Exception(f"Secret '{SECRET_NAME}' not found in AWS Secrets Manager.")
     except Exception as e:

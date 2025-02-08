@@ -51,3 +51,17 @@ aws lambda create-function --function-name predict-wine-country \
     --timeout 30 \
     --memory-size 256 \
     --zip-file fileb://function.zip
+
+
+
+
+TODO:
+> Sort our the lambda function and API code
+> Deploying API Gateway to expose it as a public API.
+> Integrating DynamoDB to store past predictions, test with curl
+  (curl -X POST "https://xyz123.execute-api.us-east-1.amazonaws.com/prod/" \
+     -H "Content-Type: application/json" \
+     -d '{"wine_characteristics": "13.5 alcohol content, 2.8 acidity, and rich fruity aroma"}')
+
+sat/sun, cleaning up and further fine tuning and improving models
+sat/sun, drawing up an AWS architecture diagram/s

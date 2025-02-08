@@ -1,57 +1,81 @@
 import json
-import boto3
-import pickle
+import openai
 import os
-import numpy as np
-from io import BytesIO
-from botocore.exceptions import NoCredentialsError
+import boto3
 
-# Initialize AWS services
-s3 = boto3.client("s3")
-runtime = boto3.client("sagemaker-runtime")
+# AWS Secrets Manager Client
+secrets_client = boto3.client("secretsmanager")
 
-# Constants
-BUCKET_NAME = "wine-country-models"
-MODEL_FILE_KEY = "wine_model.pkl"
-# SAGEMAKER_ENDPOINT = "your-llm-endpoint-name"
+# Correct Secret Name (Make sure this matches your secret in AWS Secrets Manager)
+SECRET_NAME = "open_ai_secret_jonny_2"  # Ensure this matches the name in AWS Secrets Manager
 
-# Load model from S3
-def load_model():
+def get_openai_api_key():
+    """Retrieve OpenAI API key from AWS Secrets Manager."""
     try:
-        response = s3.get_object(Bucket=BUCKET_NAME, Key=MODEL_FILE_KEY)
-        model_data = response["Body"].read()
-        model = pickle.load(BytesIO(model_data))
-        return model
-    except NoCredentialsError:
-        raise Exception("AWS credentials not found!")
-
-# # Function to call SageMaker LLM
-# def call_sagemaker_llm(input_text):
-#     payload = json.dumps({"inputs": input_text})
-#     response = runtime.invoke_endpoint(
-#         EndpointName=SAGEMAKER_ENDPOINT,
-#         ContentType="application/json",
-#         Body=payload,
-#     )
-#     result = json.loads(response["Body"].read().decode("utf-8"))
-#     return result.get("generated_text", "LLM response unavailable")
-
-# Lambda entry point
-def lambda_handler(event, context):
-    try:
-        body = json.loads(event["body"])
-        features = np.array(body["wine_characteristics"]).reshape(1, -1)
-        model_choice = body.get("model", "ml")  # Choose 'ml' or 'llm'
-
-        if model_choice == "ml":
-            model = load_model()
-            prediction = model.predict(features)
-            response = {"predicted_country": prediction[0]}
-        # else:
-        #     input_text = body.get("text_query", "Predict wine country")
-        #     response = {"llm_prediction": call_sagemaker_llm(input_text)}
-
-        return {"statusCode": 200, "body": json.dumps(response)}
-
+        response = secrets_client.get_secret_value(SecretId=SECRET_NAME)
+        secret_string = json.loads(response["SecretString"])
+        return secret_string["open_ai_secret_jonny_2"]  # Extract OpenAI key correctly
+    except secrets_client.exceptions.ResourceNotFoundException:
+        raise Exception(f"Secret '{SECRET_NAME}' not found in AWS Secrets Manager.")
     except Exception as e:
-        return {"statusCode": 500, "body": json.dumps({"error": str(e)})}
+        raise Exception(f"Error retrieving secret: {str(e)}")
+
+# Set OpenAI API Key securely
+openai.api_key = get_openai_api_key()
+
+# Initialize OpenAI client (new API)
+client = openai.OpenAI(api_key=openai.api_key)
+
+def lambda_handler(event, context):
+    """AWS Lambda handler for wine country prediction."""
+    try:
+        # Log the incoming event for debugging
+        print("Received event:", json.dumps(event))
+
+        # Check if the body exists
+        if "body" not in event:
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"error": "Missing 'body' in request"})
+            }
+
+        # Parse request body correctly
+        body = json.loads(event["body"]) if isinstance(event["body"], str) else event["body"]
+
+        # Extract wine characteristics
+        wine_characteristics = body.get("wine_characteristics")
+        if not wine_characteristics:
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"error": "Missing 'wine_characteristics' in request"})
+            }
+
+        # Create the prompt for OpenAI model
+        prompt = f"Predict the country of origin based on the following characteristics: {wine_characteristics}"
+
+        # OpenAI API call using new syntax
+        response = client.chat.completions.create(
+            model="ft:gpt-4o-mini-2024-07-18:personal::AyGh2lZU",
+            messages=[
+                {"role": "system", "content": "You are an expert in wine classification."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=50,
+            temperature=0.5
+        )
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"predicted_country": response.choices[0].message.content.strip()})
+        }
+
+    except json.JSONDecodeError:
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"error": "Invalid JSON format in request body"})
+        }
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"error": str(e)})
+        }

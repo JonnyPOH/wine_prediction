@@ -3,7 +3,7 @@ name: Update Lambda Function Code
 on:
   push:
     branches:
-      - master  # Deploy when pushing to the main branch
+      - master
 
 jobs:
   deploy:

@@ -54,14 +54,11 @@ aws lambda create-function --function-name predict-wine-country \
 
 
 
+Fine-Tuning Process
 
-TODO:
-> Sort our the lambda function and API code
-> Deploying API Gateway to expose it as a public API.
-> Integrating DynamoDB to store past predictions, test with curl
-  (curl -X POST "https://xyz123.execute-api.us-east-1.amazonaws.com/prod/" \
-     -H "Content-Type: application/json" \
-     -d '{"wine_characteristics": "13.5 alcohol content, 2.8 acidity, and rich fruity aroma"}')
-
-sat/sun, cleaning up and further fine tuning and improving models
-sat/sun, drawing up an AWS architecture diagram/s
+The model is initialized with pre-trained weights from EleutherAI/gpt-neo-1.3B.
+The training script fine-tunes the model using:
+Loss function (e.g., cross-entropy for text generation).
+Backpropagation to adjust model weights.
+Batch size of 8 (each step processes 8 samples).
+3 epochs (model sees the full dataset 3 times)

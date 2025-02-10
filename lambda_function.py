@@ -3,11 +3,8 @@ import openai
 import os
 import boto3
 
-#TEST
 # AWS Secrets Manager Client
 secrets_client = boto3.client("secretsmanager")
-
-# Correct Secret Name (Make sure this matches your secret in AWS Secrets Manager)
 SECRET_NAME = "open_ai_secret_jonny_2"  # Ensure this matches the name in AWS Secrets Manager
 
 def get_openai_api_key():
@@ -21,10 +18,8 @@ def get_openai_api_key():
     except Exception as e:
         raise Exception(f"Error retrieving secret: {str(e)}")
 
-# Set OpenAI API Key securely
+# Set OpenAI API Key and init openAI
 openai.api_key = get_openai_api_key()
-
-# Initialize OpenAI client (new API)
 client = openai.OpenAI(api_key=openai.api_key)
 
 def lambda_handler(event, context):

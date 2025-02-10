@@ -177,7 +177,7 @@ going_modular/
 .models/
 .data/
 .going_modular/
-datasets/
+# datasets/
 .dataset/
 *.zip
 *.pkl

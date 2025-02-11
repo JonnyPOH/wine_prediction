@@ -15,5 +15,11 @@ This project sets up an **AWS Lambda function** that predicts the country of ori
 - **GitHub Actions** automatically zips the `lambda_function.py` and updates the AWS Lambda function when changes are pushed.
 - AWS CLI is used to upload the new function code.
 
+## 📽️  LLM In Action
+- Using the **OpenAI Chat Playground** to test the predictive qualities of the standard gpt-4o-mini model and our Fine-Tuned version. 
+- Ours was correctly able to identify the country of origin based only on a description in **Forbes**
+
+![image](https://github.com/user-attachments/assets/625e33d9-bf45-4a5e-ae8e-b3d2c45b246e)
+
 ![image](https://github.com/user-attachments/assets/0545c807-60d6-48df-a8d0-cb98dab294dd)
 

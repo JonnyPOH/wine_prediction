@@ -14,3 +14,6 @@ This project sets up an **AWS Lambda function** that predicts the country of ori
 ## 🛠️ Deployment Process
 - **GitHub Actions** automatically zips the `lambda_function.py` and updates the AWS Lambda function when changes are pushed.
 - AWS CLI is used to upload the new function code.
+
+![image](https://github.com/user-attachments/assets/0545c807-60d6-48df-a8d0-cb98dab294dd)
+

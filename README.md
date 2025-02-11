@@ -22,4 +22,4 @@ This project sets up an **AWS Lambda function** that predicts the country of ori
 <img src="https://github.com/user-attachments/assets/625e33d9-bf45-4a5e-ae8e-b3d2c45b246e" width="500">
 
 <img src="https://github.com/user-attachments/assets/0545c807-60d6-48df-a8d0-cb98dab294dd" width="1000">
-
+<img src="https://github.com/user-attachments/assets/5f0b3128-33fa-4509-b775-08e02cac6ec7" width="1000">

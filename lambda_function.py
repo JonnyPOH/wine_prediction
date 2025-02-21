@@ -10,12 +10,17 @@ SECRET_NAME = "open_ai_secret_jonny_2"  # Ensure this matches the name in AWS Se
 def get_openai_api_key():
     """Retrieve OpenAI API key from AWS Secrets Manager."""
     try:
+        # Request the secret value
         response = secrets_client.get_secret_value(SecretId=SECRET_NAME)
+        # Load the secret string as JSON
         secret_string = json.loads(response["SecretString"])
+        # Return the API key from the JSON data
         return secret_string["open_ai_secret_jonny_2"]
     except secrets_client.exceptions.ResourceNotFoundException:
+        # raise error if needed
         raise Exception(f"Secret '{SECRET_NAME}' not found in AWS Secrets Manager.")
     except Exception as e:
+        # raise error if needed
         raise Exception(f"Error retrieving secret: {str(e)}")
 
 # Set OpenAI API Key and init openAI
@@ -66,11 +71,13 @@ def lambda_handler(event, context):
         }
 
     except json.JSONDecodeError:
+         # Handle JSON parsing errors
         return {
             "statusCode": 400,
             "body": json.dumps({"error": "Invalid JSON format in request body"})
         }
     except Exception as e:
+        # Handle all other errors
         return {
             "statusCode": 500,
             "body": json.dumps({"error": str(e)})
